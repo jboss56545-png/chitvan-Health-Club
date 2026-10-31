@@ -23,92 +23,53 @@
 
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 
+    html, body {
+      overflow-x: hidden; /* Strict fix for horizontal scrolling */
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--obsidian);
       color: var(--white);
-      overflow-x: hidden; /* Prevents horizontal scroll */
       scroll-behavior: smooth;
-      cursor: none;
     }
-    
-    /* Mobile me default cursor on kar diya hai */
-    @media (pointer: coarse) { body { cursor: auto; } }
 
     h1, h2, h3, h4, .font-heading {
       font-family: 'Syne', sans-serif;
       letter-spacing: -0.02em;
-      word-wrap: break-word;
     }
 
-    /* Custom Cursor */
-    .cursor-dot, .cursor-ring {
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
-      border-radius: 50%; transform: translate(-50%, -50%); transition: opacity 0.2s;
-    }
-    .cursor-dot { width: 6px; height: 6px; background: var(--volt); box-shadow: 0 0 12px var(--volt); }
-    .cursor-ring {
-      width: 36px; height: 36px; border: 1.5px solid rgba(226, 241, 99, 0.5);
-      transition: width 0.2s, height 0.2s, border-color 0.2s;
-    }
-    .cursor-ring.hover { width: 60px; height: 60px; border-color: var(--volt); background: rgba(226, 241, 99, 0.06); }
-    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none; } }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--obsidian); }
+    ::-webkit-scrollbar-thumb { background: var(--volt); border-radius: 4px; }
 
-    #scroll-progress {
-      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
-      background: linear-gradient(90deg, var(--volt), var(--crimson));
-      z-index: 9999; transition: width 0.05s linear;
-    }
-
-    #preloader {
-      position: fixed; inset: 0; background: var(--obsidian); z-index: 99998;
-      display: flex; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
-    #preloader.hide { opacity: 0; visibility: hidden; }
-    .loader-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--volt);
-      animation: pulseGlow 1.5s ease-in-out infinite;
-    }
-    @keyframes pulseGlow {
-      0%, 100% { text-shadow: 0 0 20px rgba(226,241,99,0.4); opacity: 1; }
-      50% { text-shadow: 0 0 60px rgba(226,241,99,0.9); opacity: 0.7; }
-    }
-
+    /* Glassmorphism */
     .glass {
-      background: rgba(18, 19, 22, 0.65);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    
-    .gradient-border {
-      position: relative; background: rgba(18, 19, 22, 0.8); border-radius: 1rem;
-    }
-    .gradient-border::before {
-      content: ''; position: absolute; inset: 0; padding: 1px; border-radius: inherit;
-      background: linear-gradient(135deg, rgba(226,241,99,0.6), transparent 40%, transparent 60%, rgba(255,51,75,0.4));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+      background: rgba(18, 19, 22, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
+    /* Buttons */
     .btn-primary {
-      position: relative; overflow: hidden;
       background: linear-gradient(135deg, var(--volt) 0%, #B8D13A 100%);
-      color: var(--obsidian); font-weight: 700;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      color: var(--obsidian);
+      font-weight: 800;
+      transition: all 0.3s ease;
     }
-    .btn-primary::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-      transition: left 0.6s ease;
+    .btn-primary:hover {
+      box-shadow: 0 0 25px rgba(226, 241, 99, 0.4);
+      transform: translateY(-2px);
     }
-    .btn-primary:hover::before { left: 100%; }
-    .btn-primary:hover { box-shadow: 0 0 30px rgba(226,241,99,0.6); }
 
+    /* Text Gradients */
     .text-gradient-volt {
-      background: linear-gradient(135deg, #E2F163 0%, #B8D13A 50%, #8FA821 100%);
+      background: linear-gradient(135deg, #E2F163 0%, #B8D13A 100%);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
     .text-gradient-crimson {
@@ -116,126 +77,93 @@
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.35; animation: orbFloat 22s ease-in-out infinite; }
-    .orb-1 { width: 300px; height: 300px; background: var(--volt); top: -5%; left: -10%; }
-    .orb-2 { width: 250px; height: 250px; background: var(--crimson); bottom: -10%; right: -10%; animation-delay: -7s; }
-    @keyframes orbFloat {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(20px, -20px) scale(1.1); }
+    /* UI Elements */
+    .form-input {
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      border-color: var(--volt);
+      box-shadow: 0 0 0 3px rgba(226, 241, 99, 0.15);
+      outline: none;
     }
 
-    .grid-floor {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
-      background-image: linear-gradient(rgba(226,241,99,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(226,241,99,0.10) 1px, transparent 1px);
-      background-size: 40px 40px; transform: perspective(600px) rotateX(62deg); transform-origin: bottom;
-      -webkit-mask-image: linear-gradient(to top, black 0%, transparent 90%); mask-image: linear-gradient(to top, black 0%, transparent 90%);
+    #toast-container {
+      position: fixed; bottom: 20px; right: 20px; z-index: 99999;
+      display: flex; flex-direction: column; gap: 10px;
+      width: calc(100% - 40px); max-width: 350px;
     }
-
-    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-    .reveal.in-view { opacity: 1; transform: none; }
-    .reveal-d1 { transition-delay: 0.1s; }
-    .reveal-d2 { transition-delay: 0.2s; }
-
-    .marquee { display: flex; gap: 1.5rem; white-space: nowrap; animation: marqueeScroll 30s linear infinite; }
-    @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    .tilt { transition: transform 0.3s ease; transform-style: preserve-3d; }
-
-    .nav-link { position: relative; transition: color 0.2s; }
-
-    .form-input { transition: all 0.25s ease; }
-    .form-input:focus { border-color: var(--volt); box-shadow: 0 0 0 4px rgba(226, 241, 99, 0.12); }
-
-    #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; width: calc(100% - 40px); max-width: 350px; }
-    .toast { animation: slideIn 0.35s ease; }
-    @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    .toast { animation: slideIn 0.3s ease; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
 
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
       z-index: 1000; display: none; align-items: center; justify-content: center; padding: 1rem;
     }
     .modal-overlay.active { display: flex; }
     .modal-content { max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
 
-    .carousel-track { display: flex; transition: transform 0.6s ease; }
+    .carousel-track { display: flex; transition: transform 0.5s ease; }
     .carousel-slide { min-width: 100%; }
     @media (min-width: 768px) { .carousel-slide { min-width: 50%; } }
     @media (min-width: 1024px) { .carousel-slide { min-width: 33.333%; } }
-
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-thumb { background: var(--volt); border-radius: 4px; }
   </style>
 </head>
 
 <body class="antialiased overflow-x-hidden">
 
-<div id="preloader">
-  <div class="text-center">
-    <div class="loader-logo">CHITVAN · CORE</div>
-  </div>
-</div>
-
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-<div id="scroll-progress"></div>
-
 <!-- NAVBAR -->
 <nav class="glass fixed top-0 left-0 right-0 z-50 border-b border-white/5">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
-    <a href="#top" class="flex items-center gap-2 md:gap-3 group">
-      <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-volt to-yellow-300 flex items-center justify-center text-obsidian font-heading text-lg md:text-xl font-extrabold shadow-[0_0_20px_rgba(226,241,99,0.4)]">C</div>
+    <a href="#" class="flex items-center gap-2">
+      <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-volt flex items-center justify-center text-obsidian font-heading text-lg md:text-xl font-extrabold shadow-[0_0_15px_rgba(226,241,99,0.4)]">C</div>
       <span class="font-heading text-base md:text-xl tracking-wider uppercase">
-        Chitvan <span class="text-muted/50 font-light">|</span> <span class="text-gradient-volt">Core</span>
+        Chitvan <span class="text-muted/50">|</span> <span class="text-gradient-volt">Core</span>
       </span>
     </a>
 
-    <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
-      <a href="#core-zones" class="nav-link text-muted hover:text-volt">Programs</a>
-      <a href="#trainers" class="nav-link text-muted hover:text-volt">Trainers</a>
-      <a href="#membership" class="nav-link text-muted hover:text-volt">Membership</a>
-      <a href="#bmi-tool" class="nav-link text-muted hover:text-volt">BMI Tool</a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="#core-zones" class="text-muted hover:text-volt">Programs</a>
+      <a href="#trainers" class="text-muted hover:text-volt">Trainers</a>
+      <a href="#membership" class="text-muted hover:text-volt">Membership</a>
+      <a href="#bmi-tool" class="text-muted hover:text-volt">BMI Tool</a>
     </div>
 
     <div class="flex items-center gap-3">
-      <button onclick="openTrialModal()" class="btn-primary hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold">
-        <span>Book Free Trial</span>
-      </button>
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-muted hover:text-volt" aria-label="Menu">
+      <button onclick="openTrialModal()" class="btn-primary hidden sm:block px-5 py-2.5 rounded-full text-sm">Book Free Trial</button>
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-white">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 bg-charcoal/95 backdrop-blur-xl absolute w-full">
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 bg-charcoal absolute w-full">
     <div class="px-4 py-4 flex flex-col gap-2 text-sm">
       <a href="#core-zones" class="text-muted hover:text-volt py-2">Programs</a>
       <a href="#trainers" class="text-muted hover:text-volt py-2">Trainers</a>
       <a href="#membership" class="text-muted hover:text-volt py-2">Membership</a>
       <a href="#bmi-tool" class="text-muted hover:text-volt py-2">BMI Tool</a>
-      <button onclick="openTrialModal()" class="btn-primary w-full py-3 rounded-full text-sm font-semibold mt-2">Book Free Trial</button>
+      <button onclick="openTrialModal()" class="btn-primary w-full py-3 rounded-full text-sm mt-2">Book Free Trial</button>
     </div>
   </div>
 </nav>
 
 <!-- HERO SECTION -->
-<section id="top" class="relative min-h-screen flex items-center pt-24 pb-12 md:pt-20 overflow-hidden">
-  <div class="hero-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="grid-floor"></div>
+<section class="relative min-h-screen flex items-center pt-24 pb-12 md:pt-20 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-0 left-0 w-[300px] h-[300px] bg-volt/10 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-0 right-0 w-[300px] h-[300px] bg-crimson/10 rounded-full blur-[100px]"></div>
   </div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
     <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-
-      <!-- LEFT CONTENT -->
+      
+      <!-- TEXT CONTENT -->
       <div class="space-y-6 md:space-y-8">
         
-        <!-- Badges -->
+        <!-- Live Status -->
         <div class="flex flex-wrap items-center gap-2">
-          <div class="inline-flex items-center gap-2 glass px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
+          <div class="inline-flex items-center gap-2 glass px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold uppercase">
             <span class="relative flex h-2 w-2">
               <span id="status-dot" class="absolute inline-flex h-full w-full rounded-full opacity-75"></span>
               <span id="status-dot-solid" class="relative inline-flex rounded-full h-2 w-2"></span>
@@ -244,79 +172,74 @@
             <span class="text-muted/40">|</span>
             <span id="ist-clock" class="text-muted">--:--</span>
           </div>
-
-          <div class="inline-flex items-center gap-2 glass px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wide">
+          <div class="inline-flex items-center gap-2 glass px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium">
             <span id="traffic-dot" class="w-2 h-2 rounded-full bg-green-400"></span>
             <span id="traffic-text">Loading...</span>
           </div>
         </div>
 
-        <!-- FIXED HEADING -->
-        <h1 class="font-heading text-[2.2rem] leading-[1.1] sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase tracking-tight break-words">
+        <!-- MOBILE FIX: Smaller heading size on phones -->
+        <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase leading-[1.05] tracking-tight break-words">
           <span class="block">Build Your</span>
           <span class="block text-gradient-volt">Core</span>
-          <span class="block text-[1.6rem] sm:text-4xl lg:text-5xl mt-1 mb-1">At Durgakund's</span>
+          <span class="block text-2xl sm:text-4xl lg:text-5xl mt-1 mb-1">At Durgakund's</span>
           <span class="block">Most <span class="text-gradient-crimson">Spacious</span></span>
           <span class="block">Fitness Arena</span>
         </h1>
 
-        <!-- FIXED PARAGRAPH -->
         <p class="text-muted text-sm sm:text-base lg:text-lg max-w-lg leading-relaxed">
           Varanasi's premier strength, hypertrophy, and functional fitness destination.
           <span class="text-white/90">Women-owned. Inclusive.</span> Featuring monkey ladders, top-tier machinery, and recovery tech.
         </p>
 
-        <!-- FIXED STATS (Added grid to fit in mobile) -->
+        <!-- Stats Grid -->
         <div class="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-md">
           <div class="glass rounded-xl p-2 sm:p-4 text-center sm:text-left">
-            <div class="flex items-center justify-center sm:justify-start gap-1 text-volt text-xs sm:text-sm font-bold">⭐ 4.8</div>
-            <p class="text-[9px] sm:text-xs text-muted uppercase tracking-wider mt-1">190+ Reviews</p>
+            <div class="text-volt text-xs sm:text-sm font-bold">⭐ 4.8</div>
+            <p class="text-[9px] sm:text-xs text-muted uppercase mt-1">190+ Reviews</p>
           </div>
           <div class="glass rounded-xl p-2 sm:p-4 text-center sm:text-left">
-            <div class="text-volt text-xs sm:text-sm font-bold">6AM–9:30PM</div>
-            <p class="text-[9px] sm:text-xs text-muted uppercase tracking-wider mt-1">Mon – Sat</p>
+            <div class="text-volt text-[10px] sm:text-sm font-bold">6AM–9:30PM</div>
+            <p class="text-[9px] sm:text-xs text-muted uppercase mt-1">Mon – Sat</p>
           </div>
           <div class="glass rounded-xl p-2 sm:p-4 text-center sm:text-left">
             <div class="text-volt text-xs sm:text-sm font-bold">100%</div>
-            <p class="text-[9px] sm:text-xs text-muted uppercase tracking-wider mt-1">Inclusive</p>
+            <p class="text-[9px] sm:text-xs text-muted uppercase mt-1">Inclusive</p>
           </div>
         </div>
 
-        <!-- FIXED BUTTONS -->
+        <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row gap-3 pt-2">
-          <button onclick="openTrialModal()" class="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-bold tracking-wide w-full sm:w-auto">
-            Book Free Trial
-            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          <button onclick="openTrialModal()" class="btn-primary flex items-center justify-center gap-2 px-6 py-3.5 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base w-full sm:w-auto">
+            Book Free Trial →
           </button>
-          <a href="#core-zones" class="glass inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white w-full sm:w-auto">
+          <a href="#core-zones" class="glass flex items-center justify-center gap-2 px-6 py-3.5 sm:px-8 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white w-full sm:w-auto hover:border-volt/40">
             Explore The CORE
           </a>
         </div>
       </div>
 
-      <!-- RIGHT BENTO (Hidden on mobile) -->
-      <div class="hidden lg:block relative">
-        <div class="grid grid-cols-2 gap-4">
-          <div class="glass rounded-2xl p-6 tilt gradient-border">
-            <div class="w-12 h-12 rounded-xl bg-volt/10 flex items-center justify-center text-2xl mb-4">🏋️</div>
-            <h3 class="font-heading font-bold text-base mb-1.5">Hypertrophy</h3>
-            <p class="text-muted text-[11px] leading-relaxed">Best-in-class machinery for muscle building.</p>
-          </div>
-          <div class="glass rounded-2xl p-6 tilt">
-            <div class="w-12 h-12 rounded-xl bg-crimson/10 flex items-center justify-center text-2xl mb-4">🤸</div>
-            <h3 class="font-heading font-bold text-base mb-1.5">Functional</h3>
-            <p class="text-muted text-[11px] leading-relaxed">Monkey ladders & bodyweight conditioning.</p>
-          </div>
-          <div class="glass rounded-2xl p-6 tilt">
-            <div class="w-12 h-12 rounded-xl bg-volt/10 flex items-center justify-center text-2xl mb-4">🔥</div>
-            <h3 class="font-heading font-bold text-base mb-1.5">Cardio Deck</h3>
-            <p class="text-muted text-[11px] leading-relaxed">High-energy endurance for conditioning.</p>
-          </div>
-          <div class="glass rounded-2xl p-6 tilt gradient-border">
-            <div class="w-12 h-12 rounded-xl bg-volt/20 flex items-center justify-center text-2xl mb-4">🧘</div>
-            <h3 class="font-heading font-bold text-base mb-1.5">Recovery <span class="text-[9px] bg-volt text-obsidian px-1.5 py-0.5 rounded-full ml-1">NEW</span></h3>
-            <p class="text-muted text-[11px] leading-relaxed">Muscle relaxation & cooldown tech.</p>
-          </div>
+      <!-- BENTO GRID (Hidden on mobile) -->
+      <div class="hidden lg:grid grid-cols-2 gap-4">
+        <div class="glass rounded-2xl p-6 border border-volt/20">
+          <div class="text-3xl mb-3">🏋️</div>
+          <h3 class="font-heading font-bold text-lg">Hypertrophy</h3>
+          <p class="text-muted text-xs mt-1">Best-in-class machinery.</p>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <div class="text-3xl mb-3">🤸</div>
+          <h3 class="font-heading font-bold text-lg">Functional</h3>
+          <p class="text-muted text-xs mt-1">Monkey ladders & calisthenics.</p>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <div class="text-3xl mb-3">🔥</div>
+          <h3 class="font-heading font-bold text-lg">Cardio Deck</h3>
+          <p class="text-muted text-xs mt-1">High-energy endurance.</p>
+        </div>
+        <div class="glass rounded-2xl p-6 border border-volt/20">
+          <div class="text-3xl mb-3">🧘</div>
+          <h3 class="font-heading font-bold text-lg">Recovery</h3>
+          <p class="text-muted text-xs mt-1">Muscle relaxation machine.</p>
         </div>
       </div>
 
@@ -324,150 +247,500 @@
   </div>
 </section>
 
-<!-- MARQUEE BAND -->
-<div class="relative border-y border-white/5 py-4 overflow-hidden bg-charcoal/30">
-  <div class="marquee">
-    <span class="font-heading text-xl md:text-3xl font-bold uppercase text-white/30 tracking-[0.15em]">STRENGTH</span>
-    <span class="text-volt text-xl md:text-3xl">✕</span>
-    <span class="font-heading text-xl md:text-3xl font-bold uppercase text-white/30 tracking-[0.15em]">HYPERTROPHY</span>
-    <span class="text-crimson text-xl md:text-3xl">✕</span>
-    <span class="font-heading text-xl md:text-3xl font-bold uppercase text-white/30 tracking-[0.15em]">CALISTHENICS</span>
-    <span class="text-volt text-xl md:text-3xl">✕</span>
-    <span class="font-heading text-xl md:text-3xl font-bold uppercase text-white/30 tracking-[0.15em]">RECOVERY</span>
-    <span class="text-crimson text-xl md:text-3xl">✕</span>
-    <span class="font-heading text-xl md:text-3xl font-bold uppercase text-white/30 tracking-[0.15em]">STRENGTH</span>
-    <span class="text-volt text-xl md:text-3xl">✕</span>
-    <span class="font-heading text-xl md:text-3xl font-bold uppercase text-white/30 tracking-[0.15em]">HYPERTROPHY</span>
-    <span class="text-crimson text-xl md:text-3xl">✕</span>
+<!-- CORE ZONES -->
+<section id="core-zones" class="py-16 md:py-24 bg-charcoal/30">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-volt text-xs font-bold uppercase tracking-[0.2em]">Facility</span>
+      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase mt-2">The <span class="text-gradient-volt">CORE</span> Zones</h2>
+      <p class="text-muted mt-3 text-sm">Four distinct arenas engineered for every fitness goal.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
+      <div class="glass rounded-2xl p-6">
+        <div class="text-3xl mb-4">🏋️</div>
+        <h3 class="font-heading text-xl font-bold mb-2">Hypertrophy & Strength</h3>
+        <p class="text-muted text-sm leading-relaxed">Dedicated free-weight and machine zones designed for progressive overload and raw strength development.</p>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <div class="text-3xl mb-4">🤸</div>
+        <h3 class="font-heading text-xl font-bold mb-2">Functional & Calisthenics</h3>
+        <p class="text-muted text-sm leading-relaxed">Monkey ladders, rigs, and open floor space for bodyweight mastery and athletic conditioning.</p>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <div class="text-3xl mb-4">🔥</div>
+        <h3 class="font-heading text-xl font-bold mb-2">Fat Loss & Cardio Deck</h3>
+        <p class="text-muted text-sm leading-relaxed">High-energy endurance zone with modern cardio equipment for maximum calorie burn.</p>
+      </div>
+      <div class="glass rounded-2xl p-6 border border-volt/20">
+        <div class="text-3xl mb-4">🧘</div>
+        <h3 class="font-heading text-xl font-bold mb-2">Recovery Lounge <span class="text-[10px] bg-volt text-obsidian px-2 py-0.5 rounded-full ml-1">NEW</span></h3>
+        <p class="text-muted text-sm leading-relaxed">Post-workout cooldown and muscle relaxation technology to accelerate recovery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BMI TOOL -->
+<section id="bmi-tool" class="py-16 md:py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-crimson text-xs font-bold uppercase tracking-[0.2em]">Toolkit</span>
+      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase mt-2">Know Your <span class="text-gradient-volt">Numbers</span></h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <!-- Calculator Form -->
+      <div class="glass rounded-2xl p-6 sm:p-8">
+        <h3 class="font-heading text-lg font-bold mb-6 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-volt text-obsidian flex items-center justify-center text-xs">1</span> Your Details
+        </h3>
+        <form id="bmi-form" class="space-y-4" onsubmit="calculateFitness(event)">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs text-muted block mb-1">Age</label>
+              <input type="number" id="bmi-age" required min="15" max="80" value="28" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+            </div>
+            <div>
+              <label class="text-xs text-muted block mb-1">Gender</label>
+              <select id="bmi-gender" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs text-muted block mb-1">Height (cm)</label>
+              <input type="number" id="bmi-height" required min="120" max="230" value="175" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+            </div>
+            <div>
+              <label class="text-xs text-muted block mb-1">Weight (kg)</label>
+              <input type="number" id="bmi-weight" required min="30" max="200" value="72" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+            </div>
+          </div>
+          <div>
+            <label class="text-xs text-muted block mb-1">Activity Level</label>
+            <select id="bmi-activity" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm">
+              <option value="1.2">Sedentary (little to no exercise)</option>
+              <option value="1.375">Lightly active (1–3 days/week)</option>
+              <option value="1.55" selected>Moderately active (3–5 days/week)</option>
+              <option value="1.725">Very active (6–7 days/week)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary w-full py-3 rounded-lg text-sm mt-2">Calculate My Metrics</button>
+        </form>
+      </div>
+
+      <!-- Results -->
+      <div id="bmi-results" class="glass rounded-2xl p-6 sm:p-8 flex flex-col justify-center items-center text-center min-h-[400px]">
+        <div class="text-5xl mb-4">📊</div>
+        <p class="text-muted text-sm">Enter your details and tap calculate to see your personalized metrics, macro split, and training track recommendation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP -->
+<section id="membership" class="py-16 md:py-24 bg-charcoal/30">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-volt text-xs font-bold uppercase tracking-[0.2em]">Membership</span>
+      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase mt-2">Choose Your <span class="text-gradient-volt">Tier</span></h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <!-- Monthly -->
+      <div class="glass rounded-2xl p-6 flex flex-col">
+        <h3 class="font-heading text-lg font-bold">Monthly</h3>
+        <div class="mt-4 mb-6">
+          <span class="text-3xl font-heading font-extrabold text-volt">₹2,500</span>
+          <span class="text-muted text-sm">/month</span>
+        </div>
+        <ul class="space-y-2 text-xs text-muted flex-1">
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> Full gym access</li>
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> All CORE zones</li>
+        </ul>
+        <button onclick="openMembershipInquiry('Monthly', 2500)" class="mt-6 w-full py-2 rounded-lg border border-white/10 text-sm font-semibold hover:text-volt">Inquire Now</button>
+      </div>
+      <!-- Quarterly -->
+      <div class="glass rounded-2xl p-6 flex flex-col border-volt/30 ring-1 ring-volt/20 relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-volt text-obsidian text-[10px] font-bold px-3 py-1 rounded-full">POPULAR</div>
+        <h3 class="font-heading text-lg font-bold">Quarterly</h3>
+        <div class="mt-4 mb-6">
+          <span class="text-3xl font-heading font-extrabold text-volt">₹6,000</span>
+          <span class="text-muted text-sm">/3 mo</span>
+        </div>
+        <ul class="space-y-2 text-xs text-muted flex-1">
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> 1 free trainer session</li>
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> Body composition analysis</li>
+        </ul>
+        <button onclick="openMembershipInquiry('Quarterly', 6000)" class="btn-primary mt-6 w-full py-2 rounded-lg text-sm">Inquire Now</button>
+      </div>
+      <!-- Semi-Annual -->
+      <div class="glass rounded-2xl p-6 flex flex-col">
+        <h3 class="font-heading text-lg font-bold">Semi-Annual</h3>
+        <div class="mt-4 mb-6">
+          <span class="text-3xl font-heading font-extrabold text-volt">₹10,500</span>
+          <span class="text-muted text-sm">/6 mo</span>
+        </div>
+        <ul class="space-y-2 text-xs text-muted flex-1">
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> 2 free trainer sessions</li>
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> Recovery lounge access</li>
+        </ul>
+        <button onclick="openMembershipInquiry('Semi-Annual', 10500)" class="mt-6 w-full py-2 rounded-lg border border-white/10 text-sm font-semibold hover:text-volt">Inquire Now</button>
+      </div>
+      <!-- Annual -->
+      <div class="glass rounded-2xl p-6 flex flex-col">
+        <h3 class="font-heading text-lg font-bold">Annual</h3>
+        <div class="mt-4 mb-6">
+          <span class="text-3xl font-heading font-extrabold text-volt">₹18,000</span>
+          <span class="text-muted text-sm">/year</span>
+        </div>
+        <ul class="space-y-2 text-xs text-muted flex-1">
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> 4 free trainer sessions</li>
+          <li class="flex items-center gap-2"><span class="text-volt">✓</span> Free nutrition consult</li>
+        </ul>
+        <button onclick="openMembershipInquiry('Annual', 18000)" class="mt-6 w-full py-2 rounded-lg border border-white/10 text-sm font-semibold hover:text-volt">Inquire Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-16 md:py-24 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-8">
+      <div class="space-y-4">
+        <div class="glass rounded-2xl p-6 flex gap-4">
+          <div class="text-2xl">📍</div>
+          <div>
+            <h3 class="font-semibold mb-1">Address</h3>
+            <p class="text-muted text-sm leading-relaxed">B 27/69, Durgakund Rd, opp. Dharamsangh Complex, Bhelupur, Varanasi 221010</p>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-6 flex gap-4">
+          <div class="text-2xl">📞</div>
+          <div>
+            <h3 class="font-semibold mb-1">Phone</h3>
+            <a href="tel:+918874881818" class="text-volt text-sm font-semibold">+91 88748 81818</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Trial Form -->
+      <div class="glass rounded-2xl p-6 sm:p-8">
+        <h3 class="font-heading text-xl font-bold mb-4">Book Your Free Trial</h3>
+        <form id="trial-form-main" class="space-y-4" onsubmit="submitTrialForm(event)">
+          <div>
+            <input type="text" id="trial-name" required placeholder="Full Name *" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+          </div>
+          <div>
+            <input type="tel" id="trial-phone" required pattern="[0-9]{10}" placeholder="10-digit Phone Number *" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <select id="trial-goal" required class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm">
+              <option value="">Goal *</option>
+              <option value="Muscle Building">Muscle Building</option>
+              <option value="Fat Loss">Fat Loss</option>
+              <option value="Functional">Functional</option>
+            </select>
+            <select id="trial-slot" required class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm">
+              <option value="">Time Slot *</option>
+              <option value="Morning">Morning (6AM-10AM)</option>
+              <option value="Afternoon">Afternoon (10AM-4PM)</option>
+              <option value="Evening">Evening (4PM-9:30PM)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary w-full py-3.5 rounded-lg text-sm">Confirm Free Trial</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/5 py-8 text-center">
+  <p class="text-muted text-xs">© 2026 Chitvan Health Club – CORE. All rights reserved.</p>
+  <button onclick="openAdminModal()" class="text-muted hover:text-volt text-xs mt-2">Admin Panel</button>
+</footer>
+
+<!-- MODALS -->
+<div id="trial-modal" class="modal-overlay">
+  <div class="modal-content glass rounded-2xl p-6 relative">
+    <button onclick="closeModal('trial-modal')" class="absolute top-4 right-4 text-muted hover:text-white">✕</button>
+    <h2 class="font-heading text-2xl font-bold mb-4">Book <span class="text-volt">Trial</span></h2>
+    <form id="trial-form-modal" class="space-y-4" onsubmit="submitTrialForm(event, 'modal')">
+      <input type="text" id="modal-trial-name" required placeholder="Full Name *" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+      <input type="tel" id="modal-trial-phone" required pattern="[0-9]{10}" placeholder="10-digit Phone *" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+      <div class="grid grid-cols-2 gap-4">
+        <select id="modal-trial-goal" required class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm">
+          <option value="">Goal *</option>
+          <option value="Muscle Building">Muscle Building</option>
+          <option value="Fat Loss">Fat Loss</option>
+        </select>
+        <select id="modal-trial-slot" required class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm">
+          <option value="">Slot *</option>
+          <option value="Morning">Morning</option>
+          <option value="Evening">Evening</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary w-full py-3 rounded-lg text-sm">Confirm</button>
+    </form>
   </div>
 </div>
 
-<!-- MODALS & JS (Baki ka poora code same rahega) -->
-<!-- (Aap yahan se neeche ka code apne purane code se replace kar sakte hain, lekin baki sections jaise BMI, Membership, Reviews waise hi kaam karenge.) -->
-
-<!-- TRIAL MODAL -->
-<div id="trial-modal" class="modal-overlay">
-  <div class="modal-content glass rounded-2xl p-6 sm:p-8 relative">
-    <button onclick="closeModal('trial-modal')" class="absolute top-4 right-4 text-muted hover:text-white">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <h2 class="font-heading text-2xl font-bold mb-1">Book Your <span class="text-volt">Free Trial</span></h2>
-    <p class="text-muted text-xs mb-6">Experience Durgakund's most spacious fitness arena.</p>
-    <form id="trial-form-modal" class="space-y-4" onsubmit="submitTrialForm(event, 'modal')">
-      <div>
-        <label class="text-xs text-muted uppercase block mb-1.5">Full Name *</label>
-        <input type="text" id="modal-trial-name" required placeholder="Your name" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm outline-none"/>
-      </div>
-      <div>
-        <label class="text-xs text-muted uppercase block mb-1.5">Phone Number *</label>
-        <input type="tel" id="modal-trial-phone" required pattern="[0-9]{10}" placeholder="10-digit mobile" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm outline-none"/>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="text-xs text-muted uppercase block mb-1.5">Goal *</label>
-          <select id="modal-trial-goal" required class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm outline-none">
-            <option value="">Select…</option>
-            <option value="Muscle Building">Muscle Building</option>
-            <option value="Fat Loss">Fat Loss</option>
-            <option value="Functional">Functional</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs text-muted uppercase block mb-1.5">Time Slot *</label>
-          <select id="modal-trial-slot" required class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm outline-none">
-            <option value="">Select…</option>
-            <option value="Morning">Morning (6AM-10AM)</option>
-            <option value="Afternoon">Afternoon (10AM-4PM)</option>
-            <option value="Evening">Evening (4PM-9:30PM)</option>
-          </select>
-        </div>
-      </div>
-      <button type="submit" class="btn-primary w-full py-3.5 rounded-lg text-sm font-bold tracking-wide mt-2">Confirm Trial</button>
+<div id="membership-modal" class="modal-overlay">
+  <div class="modal-content glass rounded-2xl p-6 relative">
+    <button onclick="closeModal('membership-modal')" class="absolute top-4 right-4 text-muted hover:text-white">✕</button>
+    <h2 class="font-heading text-2xl font-bold mb-2">Membership Inquiry</h2>
+    <p class="text-volt text-sm mb-4" id="membership-plan-label">Plan: –</p>
+    <form id="membership-form" class="space-y-4" onsubmit="submitMembershipInquiry(event)">
+      <input type="text" id="membership-name" required placeholder="Full Name *" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+      <input type="tel" id="membership-phone" required pattern="[0-9]{10}" placeholder="10-digit Phone *" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+      <input type="hidden" id="membership-plan-hidden"/>
+      <input type="hidden" id="membership-price-hidden"/>
+      <button type="submit" class="btn-primary w-full py-3 rounded-lg text-sm">Submit Inquiry</button>
     </form>
+  </div>
+</div>
+
+<div id="admin-modal" class="modal-overlay">
+  <div class="modal-content glass rounded-2xl p-6 relative max-w-3xl">
+    <button onclick="closeModal('admin-modal')" class="absolute top-4 right-4 text-muted hover:text-white">✕</button>
+    
+    <!-- Login -->
+    <div id="admin-login-view">
+      <h2 class="font-heading text-2xl font-bold mb-4">Admin Login</h2>
+      <form onsubmit="adminLogin(event)" class="space-y-4">
+        <input type="password" id="admin-password" required placeholder="Password (chitvan2025)" class="form-input w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white text-sm"/>
+        <button type="submit" class="btn-primary w-full py-3 rounded-lg text-sm">Login</button>
+      </form>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="admin-dashboard-view" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-heading text-xl font-bold">Leads Dashboard</h2>
+        <button onclick="logoutAdmin()" class="text-xs text-crimson hover:underline">Logout</button>
+      </div>
+      <div class="flex gap-2 mb-4">
+        <button onclick="switchAdminTab('trials')" id="tab-trials" class="text-xs font-bold px-3 py-1.5 rounded-full bg-volt/20 text-volt">Trials</button>
+        <button onclick="switchAdminTab('inquiries')" id="tab-inquiries" class="text-xs font-bold px-3 py-1.5 rounded-full text-muted">Inquiries</button>
+      </div>
+      <div class="overflow-x-auto max-h-64 overflow-y-auto border border-white/10 rounded-lg">
+        <table class="w-full text-left text-xs">
+          <thead id="admin-table-head" class="bg-charcoal text-muted uppercase sticky top-0"></thead>
+          <tbody id="admin-table-body"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
 <div id="toast-container"></div>
 
 <script>
-/* ================================================================
-   JAVASCRIPT LOGIC (Mobile optimized functionality)
-================================================================ */
-const DB_KEYS = { TRIALS: 'chitvan_trials', ADMIN_SESSION: 'chitvan_admin' };
+// ==========================================
+// 1. DATA STORAGE
+// ==========================================
+const DB = { TRIALS: 'chitvan_trials', INQ: 'chitvan_inq', ADMIN: 'chitvan_admin' };
+const getData = (k) => JSON.parse(localStorage.getItem(k) || '[]');
+const setData = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
-window.addEventListener('load', () => {
-  setTimeout(() => { document.getElementById('preloader').classList.add('hide'); }, 600);
-});
-
-document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+// ==========================================
+// 2. UI CONTROLS
+// ==========================================
+document.getElementById('mobile-menu-btn').onclick = () => {
   document.getElementById('mobile-menu').classList.toggle('hidden');
-});
+};
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth' });
-      document.getElementById('mobile-menu').classList.add('hidden');
-    }
-  });
-});
-
-function openTrialModal() { document.getElementById('trial-modal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
 
-function showToast(message, type = 'success') {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  const styles = { success: 'border-volt/40 text-volt', error: 'border-crimson/40 text-crimson' };
-  toast.className = `toast glass rounded-xl px-4 py-3 text-sm border ${styles[type]} shadow-lg flex items-center gap-3`;
-  toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span><span>${message}</span>`;
-  container.appendChild(toast);
-  setTimeout(() => { toast.remove(); }, 3500);
+function openTrialModal() { openModal('trial-modal'); }
+function openAdminModal() { openModal('admin-modal'); checkAdmin(); }
+
+function openMembershipInquiry(plan, price) {
+  document.getElementById('membership-plan-label').textContent = `Plan: ${plan} (₹${price})`;
+  document.getElementById('membership-plan-hidden').value = plan;
+  document.getElementById('membership-price-hidden').value = price;
+  openModal('membership-modal');
 }
 
-function submitTrialForm(event, source) {
-  event.preventDefault();
-  const phone = document.getElementById('modal-trial-phone').value.trim();
-  if (!/^\d{10}$/.test(phone)) { showToast('Enter a valid 10-digit number.', 'error'); return; }
+// Close modal on outside click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.onclick = function(e) { if(e.target === this) closeModal(this.id); };
+});
+
+// Toast Notifications
+function showToast(msg, type = 'success') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast glass rounded-lg px-4 py-3 text-sm border ${type === 'success' ? 'border-volt text-volt' : 'border-crimson text-crimson'} shadow-lg`;
+  t.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> ${msg}`;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+// ==========================================
+// 3. FORMS SUBMISSION
+// ==========================================
+function submitTrialForm(e, source = 'main') {
+  e.preventDefault();
+  const prefix = source === 'modal' ? 'modal-trial' : 'trial';
+  const name = document.getElementById(`${prefix}-name`).value;
+  const phone = document.getElementById(`${prefix}-phone`).value;
   
-  showToast('Trial booked successfully!', 'success');
-  document.getElementById('trial-form-modal').reset();
-  closeModal('trial-modal');
+  const trials = getData(DB.TRIALS);
+  if(trials.some(t => t.phone === phone)) return showToast('Phone already registered!', 'error');
+
+  trials.push({
+    name, phone,
+    goal: document.getElementById(`${prefix}-goal`).value,
+    slot: document.getElementById(`${prefix}-slot`).value,
+    date: new Date().toLocaleDateString()
+  });
+  setData(DB.TRIALS, trials);
+  showToast('Trial Booked Successfully!');
+  document.getElementById(source === 'modal' ? 'trial-form-modal' : 'trial-form-main').reset();
+  if(source === 'modal') closeModal('trial-modal');
 }
 
-// Clock & Traffic Logic
-function getISTDate() {
-  const now = new Date();
-  return new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (5.5 * 3600000));
+function submitMembershipInquiry(e) {
+  e.preventDefault();
+  const inqs = getData(DB.INQ);
+  inqs.push({
+    name: document.getElementById('membership-name').value,
+    phone: document.getElementById('membership-phone').value,
+    plan: document.getElementById('membership-plan-hidden').value,
+    price: document.getElementById('membership-price-hidden').value,
+    date: new Date().toLocaleDateString()
+  });
+  setData(DB.INQ, inqs);
+  showToast('Inquiry Submitted!');
+  document.getElementById('membership-form').reset();
+  closeModal('membership-modal');
 }
 
-function updateLiveStatus() {
-  const ist = getISTDate();
-  const day = ist.getDay();
-  const h = ist.getHours();
-  const m = ist.getMinutes();
-  const mins = h * 60 + m;
-  
-  const isOpen = (day !== 0) && (mins >= 360 && mins < 1290);
+// ==========================================
+// 4. BMI CALCULATOR
+// ==========================================
+function calculateFitness(e) {
+  e.preventDefault();
+  const age = +document.getElementById('bmi-age').value;
+  const gender = document.getElementById('bmi-gender').value;
+  const h = +document.getElementById('bmi-height').value / 100;
+  const w = +document.getElementById('bmi-weight').value;
+  const act = +document.getElementById('bmi-activity').value;
+
+  const bmi = (w / (h * h)).toFixed(1);
+  let cat = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal' : bmi < 30 ? 'Overweight' : 'Obese';
+  let bmr = gender === 'male' ? (10 * w + 6.25 * (h * 100) - 5 * age + 5) : (10 * w + 6.25 * (h * 100) - 5 * age - 161);
+  const tdee = Math.round(bmr * act);
+
+  let track = bmi < 25 ? 'Muscle Building' : 'Fat Loss';
+  let target = bmi < 25 ? tdee + 300 : tdee - 500;
+
+  document.getElementById('bmi-results').innerHTML = `
+    <div class="text-center w-full">
+      <p class="text-xs text-muted uppercase">Your BMI</p>
+      <p class="text-4xl font-heading font-extrabold ${bmi >= 18.5 && bmi < 25 ? 'text-volt' : 'text-crimson'}">${bmi}</p>
+      <p class="text-sm font-semibold ${bmi >= 18.5 && bmi < 25 ? 'text-volt' : 'text-crimson'}">${cat}</p>
+      
+      <div class="grid grid-cols-2 gap-2 mt-4 text-center">
+        <div class="glass p-2 rounded"><p class="text-[10px] text-muted">BMR</p><p class="text-volt font-bold">${Math.round(bmr)} kcal</p></div>
+        <div class="glass p-2 rounded"><p class="text-[10px] text-muted">TDEE</p><p class="text-volt font-bold">${tdee} kcal</p></div>
+      </div>
+      
+      <div class="mt-4 glass p-3 rounded">
+        <p class="text-xs text-muted">Recommended Track</p>
+        <p class="text-crimson font-bold">${track}</p>
+        <p class="text-xs text-muted mt-1">Target: ${target} kcal/day</p>
+      </div>
+      <button onclick="openTrialModal()" class="btn-primary w-full py-2 rounded-lg text-sm mt-4">Book Trial for ${track}</button>
+    </div>
+  `;
+}
+
+// ==========================================
+// 5. LIVE CLOCK & STATUS
+// ==========================================
+function getIST() {
+  const n = new Date();
+  return new Date(n.getTime() + n.getTimezoneOffset() * 60000 + 5.5 * 3600000);
+}
+
+function updateStatus() {
+  const d = getIST();
+  const isOpen = (d.getDay() !== 0) && (d.getHours() >= 6 && d.getHours() < 21.5);
   
   document.getElementById('status-dot-solid').className = `relative inline-flex rounded-full h-2 w-2 ${isOpen ? 'bg-green-400' : 'bg-crimson'}`;
   document.getElementById('status-text').textContent = isOpen ? 'OPEN NOW' : 'CLOSED';
   document.getElementById('status-text').className = isOpen ? 'text-green-400 font-bold' : 'text-crimson font-bold';
-  
-  document.getElementById('ist-clock').textContent = ist.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
+  document.getElementById('ist-clock').textContent = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
 
-  let traffic = 'Light Traffic';
-  if(!isOpen) traffic = 'Closed';
-  else if(h >= 18 && h < 21) traffic = 'Peak Traffic';
-  else if(h >= 8 && h < 10) traffic = 'Moderate Traffic';
-  
-  document.getElementById('traffic-text').textContent = traffic;
+  let t = 'Light Traffic';
+  if(!isOpen) t = 'Closed';
+  else if(d.getHours() >= 18) t = 'Peak Traffic';
+  else if(d.getHours() >= 8 && d.getHours() < 10) t = 'Moderate Traffic';
+  document.getElementById('traffic-text').textContent = t;
+}
+setInterval(updateStatus, 1000); updateStatus();
+
+// ==========================================
+// 6. ADMIN DASHBOARD
+// ==========================================
+let currentTab = 'trials';
+
+function adminLogin(e) {
+  e.preventDefault();
+  if(document.getElementById('admin-password').value === 'chitvan2025') {
+    sessionStorage.setItem(DB.ADMIN, 'true');
+    checkAdmin(); renderTable();
+  } else showToast('Wrong Password', 'error');
 }
 
-setInterval(updateLiveStatus, 1000);
-updateLiveStatus();
+function checkAdmin() {
+  if(sessionStorage.getItem(DB.ADMIN) === 'true') {
+    document.getElementById('admin-login-view').classList.add('hidden');
+    document.getElementById('admin-dashboard-view').classList.remove('hidden');
+    renderTable();
+  } else {
+    document.getElementById('admin-login-view').classList.remove('hidden');
+    document.getElementById('admin-dashboard-view').classList.add('hidden');
+  }
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem(DB.ADMIN);
+  checkAdmin();
+}
+
+function switchAdminTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-trials').className = tab === 'trials' ? 'text-xs font-bold px-3 py-1.5 rounded-full bg-volt/20 text-volt' : 'text-xs font-bold px-3 py-1.5 rounded-full text-muted';
+  document.getElementById('tab-inquiries').className = tab === 'inquiries' ? 'text-xs font-bold px-3 py-1.5 rounded-full bg-volt/20 text-volt' : 'text-xs font-bold px-3 py-1.5 rounded-full text-muted';
+  renderTable();
+}
+
+function renderTable() {
+  const head = document.getElementById('admin-table-head');
+  const body = document.getElementById('admin-table-body');
+  body.innerHTML = '';
+
+  if(currentTab === 'trials') {
+    head.innerHTML = `<tr><th class="p-2">Name</th><th class="p-2">Phone</th><th class="p-2">Goal</th><th class="p-2">Slot</th><th class="p-2">Date</th></tr>`;
+    getData(DB.TRIALS).forEach(t => {
+      body.innerHTML += `<tr class="border-t border-white/5"><td class="p-2">${t.name}</td><td class="p-2">${t.phone}</td><td class="p-2">${t.goal}</td><td class="p-2">${t.slot}</td><td class="p-2">${t.date}</td></tr>`;
+    });
+  } else {
+    head.innerHTML = `<tr><th class="p-2">Name</th><th class="p-2">Phone</th><th class="p-2">Plan</th><th class="p-2">Price</th><th class="p-2">Date</th></tr>`;
+    getData(DB.INQ).forEach(i => {
+      body.innerHTML += `<tr class="border-t border-white/5"><td class="p-2">${i.name}</td><td class="p-2">${i.phone}</td><td class="p-2">${i.plan}</td><td class="p-2 text-volt">₹${i.price}</td><td class="p-2">${i.date}</td></tr>`;
+    });
+  }
+}
 </script>
 </body>
 </html>
